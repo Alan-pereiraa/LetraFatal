@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:letrafatal/history_page.dart';
 import 'package:letrafatal/widgets/button_widget.dart';
 
 class GamePage extends StatefulWidget {
@@ -10,8 +11,27 @@ class GamePage extends StatefulWidget {
   State<GamePage> createState() => _GamePageState();
 }
 
+class Partida {
+  Partida({
+    required this.id,
+    required this.palavra,
+    required this.letrasUsadas,
+    required this.tentativasRestantes,
+    required this.venceu,
+    required this.data,
+  });
+
+  final String id;
+  final String palavra;
+  final List<String> letrasUsadas;
+  final int tentativasRestantes;
+  final bool venceu;
+  final DateTime data;
+}
+
 class _GamePageState extends State<GamePage> {
-  final palavras = [
+  late String palavraSecreta;
+  final List<String> palavras = [
     "FLUTTER",
     "DART",
     "PROGRAMACAO",
@@ -21,17 +41,46 @@ class _GamePageState extends State<GamePage> {
     "APLICATIVO",
     "JOGO",
   ];
-  late String palavraSecreta;
+
   int tentativasRestantes = 5;
+   late String partidaAtualId;
+
   late List<String> letrasUsadas;
+  List<Partida> historico = [];
 
   @override
   void initState() {
-    super.initState();
-
     int index = Random().nextInt(palavras.length);
     palavraSecreta = palavras[index];
     letrasUsadas = [];
+    partidaAtualId = gerarId();
+    super.initState();
+  }
+
+  String gerarId() => DateTime.now().microsecondsSinceEpoch.toString();
+
+  Partida partidaAtual() {
+    final venceu = palavraSecreta.split('').every((l) => letrasUsadas.contains(l));
+
+    return Partida(
+      id: partidaAtualId,
+      palavra: palavraSecreta,
+      letrasUsadas: List.of(letrasUsadas),
+      tentativasRestantes: tentativasRestantes,
+      venceu: venceu,
+      data: DateTime.now(),
+    );
+  }
+
+
+  void sincronizarPartida(Partida partidaAtual) {
+    final index = historico.indexWhere((p) => p.id == partidaAtual.id);
+
+    if (index == -1) {
+      historico.add(partidaAtual);
+    } else {
+      historico[index] = partidaAtual;
+    }
   }
 
   void iniciarNovoJogo() {
@@ -41,6 +90,7 @@ class _GamePageState extends State<GamePage> {
       palavraSecreta = palavras[random.nextInt(palavras.length)];
       letrasUsadas.clear();
       tentativasRestantes = 5;
+      partidaAtualId = gerarId();
     });
   }
 
@@ -51,7 +101,11 @@ class _GamePageState extends State<GamePage> {
 
     setState(() {
       letrasUsadas.add(letra);
-      tentativasRestantes--;
+      if (!palavraSecreta.split('').contains(letra)) {
+        tentativasRestantes--;
+      }
+
+      sincronizarPartida(partidaAtual());
     });
   }
 
@@ -84,7 +138,9 @@ class _GamePageState extends State<GamePage> {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder:(_)=>HistoryPage(historico: historico)));
+            },
             icon: const Icon(Icons.history),
           ),
         ],
