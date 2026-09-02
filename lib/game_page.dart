@@ -47,12 +47,16 @@ class _GamePageState extends State<GamePage> {
 
   late List<String> letrasUsadas;
   List<Partida> historico = [];
+  late List<String> letrasCorretas;
+  late List<String> letrasIncorretas;
 
   @override
   void initState() {
     int index = Random().nextInt(palavras.length);
     palavraSecreta = palavras[index];
     letrasUsadas = [];
+    letrasCorretas = [];
+    letrasIncorretas = [];
     partidaAtualId = gerarId();
     super.initState();
   }
@@ -101,10 +105,13 @@ class _GamePageState extends State<GamePage> {
 
     setState(() {
       letrasUsadas.add(letra);
+
       if (!palavraSecreta.split('').contains(letra)) {
+        letrasIncorretas.add(letra);
         tentativasRestantes--;
       }
 
+      letrasCorretas.add(letra);
       sincronizarPartida(partidaAtual());
     });
   }
@@ -128,6 +135,19 @@ class _GamePageState extends State<GamePage> {
       return "";
     }
   }
+
+  ({Color color, Color textColor, Color borderColor}) corDaLetra(String letra) {
+    if(letrasUsadas.contains(letra)) {
+      if(palavraSecreta.contains(letra)) {
+        return (borderColor: Colors.green, color: Colors.green, textColor: Colors.white);
+      } else {
+        return (borderColor: Colors.red, color: Colors.red, textColor: Colors.white);
+      }
+    }
+    return (borderColor: Colors.grey, color: Colors.white, textColor: Colors.black);
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -217,56 +237,181 @@ class _GamePageState extends State<GamePage> {
                   Expanded(child: 
                     Row(
                       children: [
-                        ButtonWidget(text: "A", onPressed: () { tentarLetra("A"); }, color: letrasUsadas.contains("A") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("A") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "B", onPressed: () { tentarLetra("B"); }, color: letrasUsadas.contains("B") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("B") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "C", onPressed: () { tentarLetra("C"); }, color: letrasUsadas.contains("C") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("C") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "D", onPressed: () { tentarLetra("D"); }, color: letrasUsadas.contains("D") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("D") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "E", onPressed: () { tentarLetra("E"); }, color: letrasUsadas.contains("E") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("E") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "F", onPressed: () { tentarLetra("F"); }, color: letrasUsadas.contains("F") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("F") ? Colors.grey : Colors.black),
+                        ButtonWidget(
+                          text: "A", 
+                          onPressed: () { tentarLetra("A"); }, 
+                          color: corDaLetra("A").color, 
+                          textColor: corDaLetra("A").textColor, 
+                          borderColor: corDaLetra("A").borderColor),
+                        ButtonWidget(
+                          text: "B", 
+                          onPressed: () { tentarLetra("B"); }, 
+                          color: corDaLetra("B").color, 
+                          textColor: corDaLetra("B").textColor, 
+                          borderColor: corDaLetra("B").borderColor),
+                        ButtonWidget(
+                          text: "C", 
+                          onPressed: () { tentarLetra("C"); }, 
+                          color: corDaLetra("C").color, 
+                          textColor: corDaLetra("C").textColor, 
+                          borderColor: corDaLetra("C").borderColor),
+                        ButtonWidget(
+                          text: "D", 
+                          onPressed: () { tentarLetra("D"); }, 
+                          color: corDaLetra("D").color, 
+                          textColor: corDaLetra("D").textColor, 
+                          borderColor: corDaLetra("D").borderColor),
+                        ButtonWidget(
+                          text: "E", 
+                          onPressed: () { tentarLetra("E"); }, 
+                          color: corDaLetra("E").color, 
+                          textColor: corDaLetra("E").textColor, 
+                          borderColor: corDaLetra("E").borderColor),
+                        ButtonWidget(
+                          text: "F", 
+                          onPressed: () { tentarLetra("F"); }, 
+                          color: corDaLetra("F").color, 
+                          textColor: corDaLetra("F").textColor, 
+                          borderColor: corDaLetra("F").borderColor),
                       ]
                     )
                   ),
                   Expanded(child: 
                     Row(
                       children: [
-                        ButtonWidget(text: "G", onPressed: () { tentarLetra("G"); }, color: letrasUsadas.contains("G") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("G") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "H", onPressed: () { tentarLetra("H"); }, color: letrasUsadas.contains("H") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("H") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "I", onPressed: () { tentarLetra("I"); }, color: letrasUsadas.contains("I") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("I") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "J", onPressed: () { tentarLetra("J"); }, color: letrasUsadas.contains("J") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("J") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "K", onPressed: () { tentarLetra("K"); }, color: letrasUsadas.contains("K") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("K") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "L", onPressed: () { tentarLetra("L"); }, color: letrasUsadas.contains("L") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("L") ? Colors.grey : Colors.black),
+                        ButtonWidget(
+                          text: "G", 
+                          onPressed: () { tentarLetra("G"); }, 
+                          color: corDaLetra("G").color, 
+                          textColor: corDaLetra("G").textColor, 
+                          borderColor: corDaLetra("G").borderColor),
+                        ButtonWidget(
+                          text: "H", 
+                          onPressed: () { tentarLetra("H"); }, 
+                          color: corDaLetra("H").color, 
+                          textColor: corDaLetra("H").textColor, 
+                          borderColor: corDaLetra("H").borderColor),
+                        ButtonWidget(
+                          text: "I", 
+                          onPressed: () { tentarLetra("I"); }, 
+                          color: corDaLetra("I").color, 
+                          textColor: corDaLetra("I").textColor, 
+                          borderColor: corDaLetra("I").borderColor),
+                        ButtonWidget(
+                          text: "J", 
+                          onPressed: () { tentarLetra("J"); }, 
+                          color: corDaLetra("J").color, 
+                          textColor: corDaLetra("J").textColor, 
+                          borderColor: corDaLetra("J").borderColor),
+                        ButtonWidget(
+                          text: "K", 
+                          onPressed: () { tentarLetra("K"); }, 
+                          color: corDaLetra("K").color, 
+                          textColor: corDaLetra("K").textColor, 
+                          borderColor: corDaLetra("K").borderColor),
+                        ButtonWidget(
+                          text: "L", 
+                          onPressed: () { tentarLetra("L"); }, 
+                          color: corDaLetra("L").color, 
+                          textColor: corDaLetra("L").textColor, 
+                          borderColor: corDaLetra("L").borderColor),
                       ]
                     )
                   ),
                   Expanded(child: 
                     Row(
                       children: [
-                        ButtonWidget(text: "M", onPressed: () { tentarLetra("M"); }, color: letrasUsadas.contains("M") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("M") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "N", onPressed: () { tentarLetra("N"); }, color: letrasUsadas.contains("N") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("N") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "O", onPressed: () { tentarLetra("O"); }, color: letrasUsadas.contains("O") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("O") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "P", onPressed: () { tentarLetra("P"); }, color: letrasUsadas.contains("P") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("P") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "Q", onPressed: () { tentarLetra("Q"); }, color: letrasUsadas.contains("Q") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("Q") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "R", onPressed: () { tentarLetra("R"); }, color: letrasUsadas.contains("R") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("R") ? Colors.grey : Colors.black),
+                        ButtonWidget(
+                          text: "M", 
+                          onPressed: () { tentarLetra("M"); }, 
+                          color: corDaLetra("M").color, 
+                          textColor: corDaLetra("M").textColor, 
+                          borderColor: corDaLetra("M").borderColor),
+                        ButtonWidget(
+                          text: "N", 
+                          onPressed: () { tentarLetra("N"); }, 
+                          color: corDaLetra("N").color, 
+                          textColor: corDaLetra("N").textColor, 
+                          borderColor: corDaLetra("N").borderColor),
+                        ButtonWidget(
+                          text: "O", 
+                          onPressed: () { tentarLetra("O"); }, 
+                          color: corDaLetra("O").color, 
+                          textColor: corDaLetra("O").textColor, 
+                          borderColor: corDaLetra("O").borderColor),
+                        ButtonWidget(
+                          text: "P", 
+                          onPressed: () { tentarLetra("P"); }, 
+                          color: corDaLetra("P").color, 
+                          textColor: corDaLetra("P").textColor, 
+                          borderColor: corDaLetra("P").borderColor),
+                        ButtonWidget(
+                          text: "Q", 
+                          onPressed: () { tentarLetra("Q"); }, 
+                          color: corDaLetra("Q").color, 
+                          textColor: corDaLetra("Q").textColor, 
+                          borderColor: corDaLetra("Q").borderColor),
+                        ButtonWidget(text: "R", onPressed: () { tentarLetra("R"); }, color: corDaLetra("R").color, textColor: corDaLetra("R").textColor, borderColor: corDaLetra("R").borderColor),
                       ]
                     )
                   ),
                   Expanded(child: 
                     Row(
                       children: [
-                        ButtonWidget(text: "S", onPressed: () { tentarLetra("S"); }, color: letrasUsadas.contains("S") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("S") ? Colors.white10 : Colors.black),
-                        ButtonWidget(text: "T", onPressed: () { tentarLetra("T"); }, color: letrasUsadas.contains("T") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("T") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "U", onPressed: () { tentarLetra("U"); }, color: letrasUsadas.contains("U") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("U") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "V", onPressed: () { tentarLetra("V"); }, color: letrasUsadas.contains("V") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("V") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "W", onPressed: () { tentarLetra("W"); }, color: letrasUsadas.contains("W") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("W") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "X", onPressed: () { tentarLetra("X"); }, color: letrasUsadas.contains("X") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("X") ? Colors.grey : Colors.black),
+                        ButtonWidget(
+                          text: "S", 
+                          onPressed: () { tentarLetra("S"); }, 
+                          color: corDaLetra("S").color, 
+                          textColor: corDaLetra("S").textColor, 
+                          borderColor: corDaLetra("S").borderColor),
+                        ButtonWidget(
+                          text: "T", 
+                          onPressed: () { tentarLetra("T"); }, 
+                          color: corDaLetra("T").color, 
+                          textColor: corDaLetra("T").textColor, 
+                          borderColor: corDaLetra("T").borderColor),
+                        ButtonWidget(
+                          text: "U", 
+                          onPressed: () { tentarLetra("U"); }, 
+                          color: corDaLetra("U").color, 
+                          textColor: corDaLetra("U").textColor, 
+                          borderColor: corDaLetra("U").borderColor),
+                        ButtonWidget(
+                          text: "V", 
+                          onPressed: () { tentarLetra("V"); }, 
+                          color: corDaLetra("V").color, 
+                          textColor: corDaLetra("V").textColor, 
+                          borderColor: corDaLetra("V").borderColor),
+                        ButtonWidget(
+                          text: "W", 
+                          onPressed: () { tentarLetra("W"); }, 
+                          color: corDaLetra("W").color, 
+                          textColor: corDaLetra("W").textColor, 
+                          borderColor: corDaLetra("W").borderColor),
+                        ButtonWidget(
+                          text: "X", 
+                          onPressed: () { tentarLetra("X"); }, 
+                          color: corDaLetra("X").color, 
+                          textColor: corDaLetra("X").textColor, 
+                          borderColor: corDaLetra("X").borderColor),
                       ]
                     )
                   ),
                   Expanded(child: 
                     Row(
                       children: [
-                        ButtonWidget(text: "Y", onPressed: () { tentarLetra("Y"); }, color: letrasUsadas.contains("Y") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("Y") ? Colors.grey : Colors.black),
-                        ButtonWidget(text: "Z", onPressed: () { tentarLetra("Z"); }, color: letrasUsadas.contains("Z") ? Colors.grey : Colors.white, textColor: letrasUsadas.contains("Z") ? Colors.grey : Colors.black),
+                        ButtonWidget(
+                          text: "Y", 
+                          onPressed: () { tentarLetra("Y"); }, 
+                          color: corDaLetra("Y").color, 
+                          textColor: corDaLetra("Y").textColor, 
+                          borderColor: corDaLetra("Y").borderColor),
+                        ButtonWidget(
+                          text: "Z", 
+                          onPressed: () { tentarLetra("Z"); }, 
+                          color: corDaLetra("Z").color, 
+                          textColor: corDaLetra("Z").textColor, 
+                          borderColor: corDaLetra("Z").borderColor),
                       ]
                     )
                   ),

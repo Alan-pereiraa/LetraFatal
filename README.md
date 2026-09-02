@@ -1,17 +1,31 @@
-# letrafatal
+# Letra Fatal
 
-A new Flutter project.
+Um jogo da forca simples feito em Flutter: descubra a palavra secreta antes de esgotar suas tentativas!
 
-## Getting Started
+## Como jogar
 
-This project is a starting point for a Flutter application.
+1. Ao abrir o app, uma palavra secreta é sorteada automaticamente e exibida como um conjunto de traços (`_ _ _ _`), um para cada letra.
+2. Você começa com **5 vidas** (❤️), mostradas no topo da tela.
+3. Toque em uma letra do teclado exibido na tela para tentar adivinhar:
+   - Se a letra existir na palavra, ela é revelada em todos os espaços correspondentes.
+   - Se a letra não existir, você perde uma vida.
+   - Letras já usadas ficam acinzentadas e não podem ser selecionadas novamente.
+4. O jogo termina quando:
+   - **Você vence** 🎉 — todas as letras da palavra são descobertas antes de zerar as vidas.
+   - **Você perde** 💀 — as vidas chegam a zero; a palavra correta é revelada na tela.
+5. Ao final de cada partida, use o botão **"Novo Jogo"** para sortear uma nova palavra e recomeçar.
 
-A few resources to get you started if this is your first Flutter project:
+## Histórico de partidas
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Toque no ícone de histórico (🕒) no canto superior direito da tela para ver as partidas jogadas anteriormente, incluindo a palavra, as letras usadas, o resultado (vitória ou derrota) e a data.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Executando o projeto
+
+Pré-requisitos: [Flutter SDK](https://docs.flutter.dev/get-started/install) instalado.
+
+```bash
+flutter pub get
+flutter run
+```
+
+Escolha o dispositivo/emulador desejado (Android, iOS, web, desktop) quando solicitado pelo Flutter.
